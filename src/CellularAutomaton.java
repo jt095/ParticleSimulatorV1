@@ -22,7 +22,7 @@ public class CellularAutomaton extends JPanel {
 
     private static int updateCount = 0;
 
-    // Constructor initializes the grid randomly
+    // Constructor initializes the grid
     public CellularAutomaton() {
         // Bulk -> empty
         for (int i = 1; i < WIDTH-1; i++) {
