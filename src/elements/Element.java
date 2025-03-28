@@ -1,11 +1,12 @@
 package elements;
 import CellularMatrix.CellularMatrix;
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Element {
     private int matrixX;
     private int matrixY;
-    protected Color color;
+    protected final Color color;
     protected int density;
     protected boolean hasBeenUpdated = false;
     protected ElementType elementType;
@@ -13,8 +14,8 @@ public abstract class Element {
     public Element(int x, int y) {
         this.matrixX = x;
         this.matrixY = y;
-        this.color = Color.BLACK;
         this.elementType = getEnumType();
+        this.color = ColorConstants.getColorForElementType(elementType);
     }
 
     public abstract void step(CellularMatrix matrix);
@@ -38,11 +39,6 @@ public abstract class Element {
     public Color getColor() {
         return color;
     }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
 
     public int getMatrixX() {
         return matrixX;

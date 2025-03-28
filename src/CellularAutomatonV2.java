@@ -1,7 +1,5 @@
 import CellularMatrix.CellularMatrix;
-import elements.Element;
 import elements.ElementType;
-import elements.solid.moveable.Sand;
 
 import javax.swing.*;
 import java.awt.*;
@@ -130,7 +128,7 @@ public class CellularAutomatonV2 extends JPanel {
         CellularAutomatonV2 panel = new CellularAutomatonV2();
 
         // Set up a timer to update and repaint the screen every 100 milliseconds
-        Timer timer = new Timer(100, e -> {
+        Timer timer = new Timer(10, e -> {
             panel.updateScreen();  // Update the screen
             panel.repaint();       // Repaint the panel with the new state
             updateCount += 1;

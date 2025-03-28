@@ -2,8 +2,8 @@ package elements;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import elements.solid.moveable.*;
-import elements.solid.immoveable.*;
+import elements.solid.movable.*;
+import elements.solid.immovable.*;
 
 public enum ElementType {
     EMPTYCELL(EmptyCell.class, ClassType.EMPTYCELL) {
@@ -12,13 +12,13 @@ public enum ElementType {
             return EmptyCell.getInstance();
         }
     },
-    GROUND(Ground.class, ClassType.IMMOVEABLESOLID) {
+    GROUND(Ground.class, ClassType.IMMOVABLESOLID) {
         @Override
         public Element createElementByMatrix(int x, int y) {
             return new Ground(x, y);
         }
     },
-    SAND(Sand.class, ClassType.MOVEABLESOLID) {
+    SAND(Sand.class, ClassType.MOVABLESOLID) {
         @Override
         public Element createElementByMatrix(int x, int y) {
             return new Sand(x, y);
@@ -48,15 +48,15 @@ public enum ElementType {
 
     public static List<ElementType> getMovableSolids() {
         if (MOVABLE_SOLIDS == null) {
-            MOVABLE_SOLIDS = initializeList(ClassType.MOVEABLESOLID);
+            MOVABLE_SOLIDS = initializeList(ClassType.MOVABLESOLID);
             MOVABLE_SOLIDS.sort(Comparator.comparing(Enum::toString));
         }
         return Collections.unmodifiableList(MOVABLE_SOLIDS);
     }
 
     public enum ClassType {
-        MOVEABLESOLID,
-        IMMOVEABLESOLID,
+        MOVABLESOLID,
+        IMMOVABLESOLID,
         LIQUID,
         GAS,
         PARTICLE,

@@ -9,7 +9,6 @@ public class EmptyCell extends Element{
 
     private EmptyCell(int x, int y){
         super(x, y);
-        setColor(Color.BLACK);
     }
 
     public static Element getInstance() {

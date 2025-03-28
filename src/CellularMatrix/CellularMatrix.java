@@ -14,11 +14,17 @@ public class CellularMatrix {
     }
 
     public void fillMatrix() {
-        for (int x = 0; x < getWidth(); x++) {
+        for (int x = 1; x < getWidth()-1; x++) {
             for (int y = 0; y < getHeight() - 1; y++) {
                 setElementAtIndex(x, y, ElementType.EMPTYCELL.createElementByMatrix(x, y));
             }
             setElementAtIndex(x, getHeight()-1, ElementType.GROUND.createElementByMatrix(x, getHeight()-1));
+        }
+
+        // Left and Right borders -> ground
+        for (int k = 0; k < getHeight(); k++) {
+            setElementAtIndex(0, k, ElementType.GROUND.createElementByMatrix(0, k));
+            setElementAtIndex(getWidth()-1, k, ElementType.GROUND.createElementByMatrix(getWidth()-1, k));
         }
     }
 

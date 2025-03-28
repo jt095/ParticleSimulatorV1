@@ -1,13 +1,10 @@
-package elements.solid.immoveable;
+package elements.solid.immovable;
 
 import CellularMatrix.CellularMatrix;
 
-import java.awt.*;
-
-public class Ground extends ImmoveableSolid {
+public class Ground extends ImmovableSolid {
     public Ground(int x, int y) {
         super(x, y);
-        setColor(Color.GRAY);
     }
 
     @Override
