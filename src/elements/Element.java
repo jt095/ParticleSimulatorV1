@@ -1,21 +1,26 @@
 package elements;
 import CellularMatrix.CellularMatrix;
 import java.awt.*;
-import java.util.Random;
+import java.util.Vector;
 
 public abstract class Element {
     private int matrixX;
     private int matrixY;
     protected final Color color;
-    protected int density;
+    protected Vector<Double> velocity = new Vector<>(2);
     protected boolean hasBeenUpdated = false;
     protected ElementType elementType;
+    protected static final double GRAVITY = 0.2;
+    protected final boolean evenFrame;
 
-    public Element(int x, int y) {
+    public Element(int x, int y, boolean evenFrame) {
         this.matrixX = x;
         this.matrixY = y;
+        this.evenFrame = evenFrame;
         this.elementType = getEnumType();
         this.color = ColorConstants.getColorForElementType(elementType);
+        velocity.addElement(0.0);
+        velocity.addElement(0.0);
     }
 
     public abstract void step(CellularMatrix matrix);
@@ -28,12 +33,24 @@ public abstract class Element {
         this.hasBeenUpdated = hasBeenUpdated;
     }
 
-    public int getDensity() {
-        return density;
+    public double getVelocityX() {
+        return velocity.getFirst();
     }
 
-    public void setDensity(int density) {
-        this.density = density;
+    public double getVelocityY() {
+        return velocity.getLast();
+    }
+
+    public void setVelocityX(double velocityX) {
+        this.velocity.set(0, velocityX);
+    }
+
+    public void setVelocityY(double velocityY) {
+        this.velocity.set(1, velocityY);
+    }
+
+    public void applyGravity() {
+        this.setVelocityY(getVelocityY() + GRAVITY);
     }
 
     public Color getColor() {

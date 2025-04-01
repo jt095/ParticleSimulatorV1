@@ -1,16 +1,21 @@
 import CellularMatrix.CellularMatrix;
+import elements.Element;
 import elements.ElementType;
+import elements.EmptyCell;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
+import java.util.Random;
 
 public class CellularAutomatonV2 extends JPanel {
 
     private static int WIDTH;  // Screen width (in pixels)
     private static int HEIGHT; // Screen height (in pixels)
-    private static final int CELL_SIZE = 4; // Each cell (pixel) is now 10x10 pixels
+    private static final int CELL_SIZE = 8; // Each cell (pixel) is now 10x10 pixels
+    private static final int FPS = 60;
+    private static final int BRUSH_SIZE = 10;
     private final CellularMatrix matrix;
 
     // mouse inputs
@@ -22,6 +27,7 @@ public class CellularAutomatonV2 extends JPanel {
     private String lastKeyPressed = "";
 
     private static int updateCount = 0;
+    private static int particleCount = 0;
 
     // Constructor initializes the grid
     public CellularAutomatonV2() {
@@ -84,13 +90,26 @@ public class CellularAutomatonV2 extends JPanel {
         });
     }
 
+    private void useBrush() {
+        Random rand = new Random();
+        for (int x = 0; x < BRUSH_SIZE; x+=rand.nextInt(8)) {
+            for (int y = 0; y < BRUSH_SIZE; y+=rand.nextInt(8)) {
+                if (Objects.equals(lastKeyPressed, "1")) {
+                    matrix.setElementAtIndex(mouseX + x, mouseY + y, ElementType.SAND.createElementByMatrix(mouseX + x, mouseY + y, updateCount % 2 == 0));
+                }
+                else if (Objects.equals(lastKeyPressed, "2")) {
+                    matrix.setElementAtIndex(mouseX + x, mouseY + y, ElementType.WATER.createElementByMatrix(mouseX + x, mouseY + y, updateCount % 2 == 0));
+
+                }
+            }
+        }
+    }
+
     // Method to update the screen based on neighboring pixels
     private void updateScreen() {
-        // Spawn elements on lcick
+        // Spawn elements on click
         if (mousePressed) {
-            if (Objects.equals(lastKeyPressed, "1")) {
-                matrix.setElementAtIndex(mouseX, mouseY, ElementType.SAND.createElementByMatrix(mouseX, mouseY));
-            }
+            useBrush();
         }
 
         for (int x = 0; x < matrix.getWidth(); x++) {
@@ -103,7 +122,7 @@ public class CellularAutomatonV2 extends JPanel {
         for (int x = 0; x < matrix.getWidth(); x++) {
             for (int y = 0; y < matrix.getHeight(); y++) {
                 // don't step if already updated
-                if (matrix.getElementAtCell(x, y).isHasBeenUpdated()) continue;
+                if (matrix.getElementAtCell(x,y) instanceof EmptyCell || matrix.getElementAtCell(x, y).isHasBeenUpdated()) continue;
                 matrix.getElementAtCell(x, y).step(matrix);
             }
         }
@@ -128,7 +147,7 @@ public class CellularAutomatonV2 extends JPanel {
         CellularAutomatonV2 panel = new CellularAutomatonV2();
 
         // Set up a timer to update and repaint the screen every 100 milliseconds
-        Timer timer = new Timer(10, e -> {
+        Timer timer = new Timer(1000 / FPS, e -> {
             panel.updateScreen();  // Update the screen
             panel.repaint();       // Repaint the panel with the new state
             updateCount += 1;

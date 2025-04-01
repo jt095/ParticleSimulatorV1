@@ -38,6 +38,7 @@ public class ColorConstants {
         elementColorMap.get(ElementType.SAND).add(SAND_3);
 
         elementColorMap.get(ElementType.GROUND).add(GROUND);
+        elementColorMap.get(ElementType.WATER).add(WATER);
 
         elementColorMap.get(ElementType.EMPTYCELL).add(EMPTY_CELL);
 
